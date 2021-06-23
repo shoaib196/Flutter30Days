@@ -7,9 +7,25 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  String name = "";
+  bool changeButton = false;
+
+  @override
+  void initState() {
+    changeButton = false;
+    super.initState();
+  }
+
+  @protected
+  @mustCallSuper
+  void didPopNext(Route<dynamic> nextRoute) {
+    setState(() {
+      changeButton = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    String name = "";
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -39,12 +55,15 @@ class _LoginState extends State<Login> {
                 children: [
                   TextFormField(
                     decoration: InputDecoration(
-                        hintText: "Enter Email", labelText: "Email"),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        hintText: "Enter Email",
+                        labelText: "Email"),
                     onChanged: (value) {
                       setState(() {
                         name = value;
                       });
-                      print(name);
                     },
                   ),
                   SizedBox(height: 20),
@@ -58,24 +77,63 @@ class _LoginState extends State<Login> {
                     obscureText: true,
                   ),
                   SizedBox(height: 40),
-                  Text(name),
-                  // Container(
-                  //   height: 40,
-                  //   width: 150,
-                  // ),
 
-                  ElevatedButton(
-                      onPressed: () {
-                        // Navigator.pushNamed(context, MyRoutes.homeRoute);
-                      },
-                      child: Text(
-                        "Login",
+                  InkWell(
+                    mouseCursor: MouseCursor.defer,
+                    focusColor: Colors.green,
+                    onTap: () async {
+                      setState(() {
+                        changeButton = true;
+                      });
+                      await Future.delayed(Duration(milliseconds: 400));
+                      Navigator.pushNamed(context, MyRoutes.homeRoute)
+                          .then((value) {
+                        setState(() {
+                          changeButton = false;
+                        });
+                      });
+                    },
+                    child: AnimatedContainer(
+                      duration: Duration(milliseconds: 400),
+                      height: changeButton ? 60 : 50,
+                      width: changeButton ? 60 : 150,
+                      alignment: Alignment.center,
+                      child: changeButton
+                          ? Icon(Icons.done, color: Colors.white, size: 30)
+                          : Text(
+                              "Login",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                      decoration: BoxDecoration(
+                        borderRadius: changeButton
+                            ? BorderRadius.circular(30)
+                            : BorderRadius.circular(8),
+                        color: Colors.green,
                       ),
-                      style: TextButton.styleFrom(minimumSize: Size(200, 40))),
+                    ),
+                  ),
+
+                  // ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.pushNamed(context, MyRoutes.homeRoute);
+                  //     },
+                  //     child: Text(
+                  //       "Login",
+                  //     ),
+                  //     style: TextButton.styleFrom(minimumSize: Size(200, 40))),
                   SizedBox(height: 40),
                   ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, MyRoutes.signUpRoute);
+                        Navigator.pushNamed(context, MyRoutes.signUpRoute)
+                            .then((value) {
+                          setState(() {
+                            name = value;
+                            changeButton = false;
+                          });
+                        });
                       },
                       child: Text(
                         "Don't have Account? SignUp",
