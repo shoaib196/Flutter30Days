@@ -9,6 +9,7 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
   String name = "";
   bool changeButton = false;
+  final _formkey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -24,6 +25,20 @@ class _LoginState extends State<Login> {
     });
   }
 
+  moveToHome(BuildContext context) async {
+    if (_formkey.currentState.validate()) {
+      setState(() {
+        changeButton = true;
+      });
+      await Future.delayed(Duration(milliseconds: 400));
+      Navigator.pushNamed(context, MyRoutes.homeRoute).then((value) {
+        setState(() {
+          changeButton = false;
+        });
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,126 +47,130 @@ class _LoginState extends State<Login> {
         child: Container(
           alignment: Alignment.center,
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Image.asset(
-                  "assets/images/login.png",
-                  height: 220,
-                  fit: BoxFit.cover,
-                ),
-                SizedBox(height: 30),
-                Text(
-                  "Welcome $name",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 30,
-                    // fontFamily:
+            child: Form(
+              key: _formkey,
+              child: Column(
+                children: [
+                  Image.asset(
+                    "assets/images/login.png",
+                    height: 220,
+                    fit: BoxFit.cover,
                   ),
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            hintText: "Enter Email",
-                            labelText: "Email"),
-                        onChanged: (value) {
-                          setState(() {
-                            name = value;
-                          });
-                        },
-                      ),
-                      SizedBox(height: 20),
-                      TextFormField(
-                        decoration: InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            hintText: "Enter Password",
-                            labelText: "Password"),
-                        obscureText: true,
-                      ),
-                      SizedBox(height: 40),
-
-                      Material(
-                        borderRadius: changeButton
-                            ? BorderRadius.circular(30)
-                            : BorderRadius.circular(8),
-                        color: Colors.green,
-                        child: InkWell(
-                          mouseCursor: MouseCursor.defer,
-                          focusColor: Colors.green,
-                          onTap: () async {
+                  SizedBox(height: 30),
+                  Text(
+                    "Welcome $name",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 30,
+                      // fontFamily:
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 20, horizontal: 20),
+                    child: Column(
+                      children: [
+                        TextFormField(
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              hintText: "Enter Email",
+                              labelText: "Email"),
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return "Email can't be empty";
+                            }
+                            return null;
+                          },
+                          onChanged: (value) {
                             setState(() {
-                              changeButton = true;
-                            });
-                            await Future.delayed(Duration(milliseconds: 400));
-                            Navigator.pushNamed(context, MyRoutes.homeRoute)
-                                .then((value) {
-                              setState(() {
-                                changeButton = false;
-                              });
+                              name = value;
                             });
                           },
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 400),
-                            height: changeButton ? 60 : 50,
-                            width: changeButton ? 60 : 150,
-                            alignment: Alignment.center,
-                            child: changeButton
-                                ? Icon(Icons.done,
-                                    color: Colors.white, size: 30)
-                                : Text(
-                                    "Login",
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                            // decoration: BoxDecoration(
-                            //   borderRadius: changeButton
-                            //       ? BorderRadius.circular(30)
-                            //       : BorderRadius.circular(8),
-                            //   color: Colors.green,
-                            // ),
+                        ),
+                        SizedBox(height: 20),
+                        TextFormField(
+                          decoration: InputDecoration(
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              hintText: "Enter Password",
+                              labelText: "Password"),
+                          validator: (value) {
+                            if (value.length < 6) {
+                              return "Password must be 6 character Long.";
+                            }
+                            return null;
+                          },
+                          obscureText: true,
+                        ),
+                        SizedBox(height: 40),
+
+                        Material(
+                          borderRadius: changeButton
+                              ? BorderRadius.circular(30)
+                              : BorderRadius.circular(8),
+                          color: Colors.green,
+                          child: InkWell(
+                            mouseCursor: MouseCursor.defer,
+                            focusColor: Colors.green,
+                            onTap: () => moveToHome(context),
+                            child: AnimatedContainer(
+                              duration: Duration(milliseconds: 400),
+                              height: changeButton ? 60 : 50,
+                              width: changeButton ? 60 : 150,
+                              alignment: Alignment.center,
+                              child: changeButton
+                                  ? Icon(Icons.done,
+                                      color: Colors.white, size: 30)
+                                  : Text(
+                                      "Login",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                              // decoration: BoxDecoration(
+                              //   borderRadius: changeButton
+                              //       ? BorderRadius.circular(30)
+                              //       : BorderRadius.circular(8),
+                              //   color: Colors.green,
+                              // ),
+                            ),
                           ),
                         ),
-                      ),
 
-                      // ElevatedButton(
-                      //     onPressed: () {
-                      //       Navigator.pushNamed(context, MyRoutes.homeRoute);
-                      //     },
-                      //     child: Text(
-                      //       "Login",
-                      //     ),
-                      //     style: TextButton.styleFrom(minimumSize: Size(200, 40))),
-                      SizedBox(height: 40),
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, MyRoutes.signUpRoute)
-                                .then((value) {
-                              setState(() {
-                                name = value;
-                                changeButton = false;
+                        // ElevatedButton(
+                        //     onPressed: () {
+                        //       Navigator.pushNamed(context, MyRoutes.homeRoute);
+                        //     },
+                        //     child: Text(
+                        //       "Login",
+                        //     ),
+                        //     style: TextButton.styleFrom(minimumSize: Size(200, 40))),
+                        SizedBox(height: 40),
+                        ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, MyRoutes.signUpRoute)
+                                  .then((value) {
+                                setState(() {
+                                  name = value;
+                                  changeButton = false;
+                                });
                               });
-                            });
-                          },
-                          child: Text(
-                            "Don't have Account? SignUp",
-                          ),
-                          style: TextButton.styleFrom(
-                              minimumSize: Size(200, 40),
-                              backgroundColor: Colors.black))
-                    ],
-                  ),
-                )
-              ],
+                            },
+                            child: Text(
+                              "Don't have Account? SignUp",
+                            ),
+                            style: TextButton.styleFrom(
+                                minimumSize: Size(200, 40),
+                                backgroundColor: Colors.black))
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),
