@@ -20,7 +20,7 @@ class ItemWidget extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(10),
             child: Image.network(
-              item.imageUrl,
+              item.image,
               fit: BoxFit.cover,
             ),
           ),
