@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/Models/item.dart';
+import 'package:store_app/Screens/drawer.dart';
+
+import 'item_Widget.dart';
 
 class Home extends StatelessWidget {
   @override
@@ -8,12 +12,25 @@ class Home extends StatelessWidget {
 
     return Scaffold(
       body: Center(
-        child: Text("Its ${days} day flutter app serise :  $user"),
+        child: ItemList(),
       ),
       appBar: AppBar(
         title: Text("My Store"),
       ),
-      drawer: Drawer(),
+      drawer: MyDrawer(),
+    );
+  }
+}
+
+class ItemList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final _dummyList = List.generate(30, (index) => ItemModel.items[0]);
+    return ListView.builder(
+      itemCount: _dummyList.length,
+      itemBuilder: (context, index) {
+        return ItemWidget(item: _dummyList[index]);
+      },
     );
   }
 }
