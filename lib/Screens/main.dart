@@ -5,6 +5,8 @@ import 'package:store_app/Screens/signUp_screen.dart';
 import 'package:store_app/Screens/themes.dart';
 import 'package:store_app/Utilities/Routes.dart';
 
+import 'home_grid.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: MyThemes.themeData(context),
       darkTheme: MyThemes.darkThemeData(context),
       routes: {
-        "/": (context) => Login(),
+        "/": (context) => HomeGrid(),
         MyRoutes.signUpRoute: (context) => Signup(),
         MyRoutes.loginRoute: (context) => Login(),
         MyRoutes.homeRoute: (context) => Home()
