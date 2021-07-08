@@ -21,7 +21,7 @@ class _HomeState extends State<HomeGrid> {
   @override
   Widget build(BuildContext context) {
     final days = 40;
-    final user = 'Shoaib';  
+    final user = 'Shoaib';
 
     return Scaffold(
       body: Center(
