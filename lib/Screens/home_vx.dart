@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:store_app/Models/item.dart';
+import 'package:store_app/Screens/catalog_details.dart';
 import 'package:store_app/Utilities/global.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -61,13 +62,23 @@ class _HomeState extends State<HomeVX> {
 class CatalogList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: ItemModel.items.count(),
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-        final catalog = ItemModel.items[index];
-        return CatalogItem(catalog: catalog);
-      },
+    return Scaffold(
+      body: ListView.builder(
+        itemCount: ItemModel.items.count(),
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          final catalog = ItemModel.items[index];
+          return InkWell(
+              child: CatalogItem(catalog: catalog),
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            CatalogDetails(catalog: catalog)));
+              });
+        },
+      ),
     );
   }
 }
@@ -98,19 +109,20 @@ class CatalogItem extends StatelessWidget {
     return VxBox(
         child: Row(
       children: [
-        CatalogImage(
-          catalog: catalog,
+        Hero(
+          tag: Key(catalog.id.toString()),
+          child: CatalogImage(
+            catalog: catalog,
+          ),
         ),
         Expanded(
+            // flex: 1,
             child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             catalog.name.text.lg.bold.gray700.make(),
-            catalog.desc.text
-                .overflow(TextOverflow.ellipsis)
-                .maxLines(4)
-                .make(),
+            catalog.desc.text.overflow(TextOverflow.ellipsis).make(),
             ButtonBar(
               alignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -141,7 +153,7 @@ class CatalogImage extends StatelessWidget {
     return Image.network(catalog.image)
         .box
         .p12
-        .green100
+        .white
         .roundedSM
         .make()
         .w32(context)
