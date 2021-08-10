@@ -23,12 +23,13 @@ class CatalogDetails extends StatelessWidget {
               .make(),
           ElevatedButton(
                   onPressed: () {},
-                  child: "Buy".text.make(),
+                  child: "Buy".text.xl.semiBold.make(),
                   style: ButtonStyle(
                       backgroundColor:
                           MaterialStateProperty.all(Colors.red.shade300),
                       shape: MaterialStateProperty.all(StadiumBorder())))
-              .w(100)
+              .w(120)
+              .h(45)
         ],
       ).p32(),
       body: SafeArea(
@@ -62,7 +63,12 @@ class CatalogDetails extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       catalog.name.text.xl4.bold.make(),
-                      catalog.desc.text.xl.medium.make().px24()
+                      catalog.desc.text.xl.medium.make().px24(),
+                      "This is awesomeness of apple of launching such a tremdsdhbds jhdsdsf sdf sdf sdf sdfsdjf sdfhs dfjh sfThis is awesomeness of apple of launching such a tremdsdhbds jhdsdsf sdf sdf sdf sdfsdjf sdfhs dfjh sf "
+                          .text
+                          .xl
+                          .make()
+                          .p20(),
                     ],
                   ).py(64),
                 ),

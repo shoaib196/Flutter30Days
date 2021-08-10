@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/Screens/cart_screen.dart';
 import 'package:store_app/Screens/home_screen.dart';
 import 'package:store_app/Screens/login_screen.dart';
 import 'package:store_app/Screens/signUp_screen.dart';
@@ -23,7 +24,8 @@ class MyApp extends StatelessWidget {
         "/": (context) => HomeVX(),
         MyRoutes.signUpRoute: (context) => Signup(),
         MyRoutes.loginRoute: (context) => Login(),
-        MyRoutes.homeRoute: (context) => Home()
+        MyRoutes.homeRoute: (context) => Home(),
+        MyRoutes.cartRoute: (context) => CartScreen()
       },
       debugShowCheckedModeBanner: false,
     );
