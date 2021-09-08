@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:store_app/Models/item.dart';
 import 'package:store_app/Screens/catalog_details.dart';
-import 'package:store_app/Utilities/Routes.dart';
 import 'package:store_app/Utilities/global.dart';
 import 'package:velocity_x/velocity_x.dart';
 
@@ -15,6 +14,10 @@ class HomeVX extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeVX> {
+  final days = 40;
+  final user = 'Shoaib';
+  int curentIndex = 0;
+
   @override
   void initState() {
     super.initState();
@@ -23,25 +26,19 @@ class _HomeState extends State<HomeVX> {
 
   @override
   Widget build(BuildContext context) {
-    final days = 40;
-    final user = 'Shoaib';
-
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      floatingActionButtonLocation: FloatingActionButtonLocation.miniEndTop,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context, MyRoutes.cartRoute);
-        },
-        child: Icon(CupertinoIcons.cart_fill_badge_plus),
+      appBar: AppBar(
+        title: "Super Store".text.xl4.color(context.theme.canvasColor).make(),
+        backgroundColor: context.theme.backgroundColor,
       ),
       body: SafeArea(
         child: Container(
-          padding: Vx.m24,
+          padding: Vx.mH16,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CatalogHeader(),
+              // CatalogHeader(),
               if (ItemModel.items != null && ItemModel.items.isNotEmpty)
                 CatalogList().expand()
               else
