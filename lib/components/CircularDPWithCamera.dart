@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:store_app/Screens/themes.dart';
 import 'package:velocity_x/velocity_x.dart';
 
 class ProfileImageWithCamera extends StatelessWidget {
@@ -24,7 +25,7 @@ class ProfileImageWithCamera extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                   color: Colors.white,
-                  border: Border.all(color: context.theme.primaryColor)),
+                  border: Border.all(color: MyThemes.textColor)),
               child: TextButton(
                 child: Icon(
                   Icons.camera_alt_outlined,
